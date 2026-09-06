@@ -16,14 +16,19 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { Box, LocaleProvider } from "@chakra-ui/react";
 import { useEffect, type PropsWithChildren } from "react";
+
+import { Box, LocaleProvider } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import { Outlet } from "react-router-dom";
 
 import { usePluginServiceGetPlugins } from "openapi/queries";
 import type { ReactAppResponse } from "openapi/requests/types.gen";
+
 import { ReactPlugin } from "src/pages/ReactPlugin";
+
+import { KeyboardShortcutsModal } from "src/components/KeyboardShortcuts";
+
 import { useConfig } from "src/queries/useConfig";
 import { DocumentTitleProvider } from "src/utils";
 
@@ -101,6 +106,7 @@ export const BaseLayout = ({ children }: PropsWithChildren) => {
     <LocaleProvider locale={i18n.language || "en"}>
       <DocumentTitleProvider>
         <Box display="flex" flexDirection="column" h="100vh">
+          <KeyboardShortcutsModal />
           <Nav />
           <Box
             _ltr={{ ml: 16 }}
@@ -110,8 +116,9 @@ export const BaseLayout = ({ children }: PropsWithChildren) => {
             flex={1}
             flexDirection="column"
             minH={0}
-            overflow="auto"
+            overflowY="auto"
             p={3}
+            pb={0}
           >
             {baseReactPlugins.map((plugin) => (
               <ReactPlugin key={plugin.name} reactApp={plugin} />
